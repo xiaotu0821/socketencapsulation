@@ -18,7 +18,7 @@
 #include <sys/wait.h>
 #include <fcntl.h>
 #include <sys/select.h>
-#include "commsock.h"
+#include "mysock.h"
 //客户端初始化
 typedef struct SckHandle
 {
