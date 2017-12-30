@@ -12,14 +12,14 @@
 #include<signal.h>
 #include<errno.h>
 #include<string.h>
-#include <sys/types.h>          /* See NOTES */
+#include <sys/types.h>         
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <sys/wait.h>
 #include <fcntl.h>
 #include <sys/select.h>
 #include "mysock.h"
-//客户端初始化
+
 typedef struct SckHandle
 {
 	int sockArray[100];
@@ -181,7 +181,7 @@ int sckClient_init(void **handle,int contime,int sendtime,int revtime,int nConNu
 	int i=0;
 	for(i=0;i<1;i++)
 	{
-		//链表的顺序存储
+		
 		sockfd=socket(AF_INET,SOCK_STREAM,IPPROTO_TCP);
 		if(sockfd<0)
 			{
@@ -244,14 +244,7 @@ int deactivate_nonblock(int fd)
 
 
 
-/*
- connect_timeout -connect
- @fd:套接字
- @addr：要连接的对方地址
- @wait_seconds:要等待的超时秒数 ，为0表示正常
- 成功返回0 失败返回-1，超时返回-1 并errno=ETIMEDOUT
- 
- */
+
  
 static int connect_timeout(int fd,struct sockaddr_in *addr,unsigned int wait_seconds)
 {
@@ -309,7 +302,7 @@ static int connect_timeout(int fd,struct sockaddr_in *addr,unsigned int wait_sec
 
 
 	
-	//处理连接
+	
 int sckClient_getconn(void *handle,char * ip,int port,int *connfd)
 {
 	
@@ -411,7 +404,7 @@ int write_timeout(int fd,unsigned int wait_seconds)
 
 
 
-//客户端发送
+
 int sckClient_send(void *handle,int connfd,unsigned char *data,int datalen)
 {
 	int ret=0;
@@ -457,10 +450,7 @@ int sckClient_send(void *handle,int connfd,unsigned char *data,int datalen)
 		}
 			return ret;
 }
-/*
-@fd:文件描述符
-@wait_seconds：等到超时秒数，如果为0表示不检测超时
-成功(未超时)返回0，失败返回-1,超时返回-1并errno=ETIMEDOUT */
+
 int read_timeout(int fd,unsigned int wait_seconds)
 {
 	int ret=0;
@@ -492,7 +482,6 @@ int read_timeout(int fd,unsigned int wait_seconds)
 
 
 
-//客户端接收报文
 int sckClient_rev(void *handle,int connfd,unsigned char *out,int *outlen)
 {
 		int ret=0;
@@ -555,7 +544,7 @@ int sckClient_rev(void *handle,int connfd,unsigned char *out,int *outlen)
 
 
 
-//客户端释放
+
 int sckClient_destroy(void *handle)
 {
 	if(handle !=NULL)
@@ -576,7 +565,7 @@ int sckClient_closeconn(int connfd)
 	}
 	
 	
-	/* ----------------------------------------------这里是可爱的分界线--------------------------------------*/
+	/* 服务端*/
 	
 int sckServer_init(int port,int *listenfd)
 {
@@ -611,9 +600,9 @@ int sckServer_init(int port,int *listenfd)
 			return ret;
 			
 		}
-	//一旦调用了listen函数，这个套接字sockfd将变成被动套接字，被动套接字只能接收连接，不能发送连接
-	//listen 做了两个队列。。。已完成连接队列和未完成连接队列
-ret=listen(mylistenfd,SOMAXCONN);
+	
+	
+ret=listen(mylistenfd,SOMAXCONN);//使用listen将会阻塞
 	if(ret<0)
 	{	
 			ret=errno;
